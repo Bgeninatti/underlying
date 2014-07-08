@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block css %}
+
+        <style>
+            {% for c in clases %}
+                .rad{{c[0]}} {
+                    -webkit-border-top-left-radius: {{ c[1] }}px;
+                    -webkit-border-top-right-radius: {{ c[2] }}px;
+                    -webkit-border-bottom-right-radius: {{ c[3] }}px;
+                    -webkit-border-bottom-left-radius: {{ c[4] }}px;
+                    -moz-border-radius-topleft: {{ c[1] }}px;
+                    -moz-border-radius-topright: {{ c[2] }}px;
+                    -moz-border-radius-bottomright: {{ c[3] }}px;
+                    -moz-border-radius-bottomleft: {{ c[4] }}px;
+                    border-top-left-radius: {{ c[1] }}px;
+                    border-top-right-radius: {{ c[2] }}px;
+                    border-bottom-right-radius: {{ c[3] }}px;
+                    border-bottom-left-radius: {{ c[4] }}px;
+                }
+            {% end %}
+
+        </style>
+{% end block %}
+
+
+
+{%block contenido %}
+    {% from random import randint %}
+    <div class="col-md-offset-3 game-cont rad1">
+        <div id="underlyingGame">
+            {% for b in boxes %}
+                <div id="{{ b['id'] }}" class="block {{ b['class'] }}">
+                    <p>{{ b['val'] }}</p>
+                </div>
+            {% end %}
+        </div>
+    </div>
+{% end %}
