@@ -21,13 +21,13 @@ div.game-cont {
     opacity: .9;
 }
 
-#underlyingGame {
+#Game {
     position: relative;
     max-width: 30em;
     max-height: 30em;
 }
 
-div.block {
+div.box {
     float: left;
     display: inline-block;
     padding: 1em;
@@ -45,18 +45,26 @@ div.block {
               transition: all .2s ease;
 }
 
-div.block:hover {
+div.box:hover {
     background-color: #FFD06B;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
 }
 
-div.block p {
+div.box p {
     font-size: 2.5em;
     font-weight: bold;
     opacity: ;
     margin: auto;
     display: inline-block;
     position: relative;
+}
+
+#game-config {
+    display: inline-block;
+    background-color: #E9E7E7;
+    opacity: .9;
+    margin: 0 2em;
+    padding: 1em;
 }

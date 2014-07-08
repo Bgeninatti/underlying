@@ -23,6 +23,70 @@ require([
     'jquery',
     'underscore',
     'backbone',
-], function ($, _, Backbone) {
+    'Game/GameView',
+    'Game/ConfigView',
+    'Collections/BoxCollection'
+], function ($, _, Backbone, GameView, ConfigView, BoxList) {
+
+    document.ondblclick = function(evt) {
+        if (window.getSelection)
+            window.getSelection().removeAllRanges();
+        else if (document.selection)
+            document.selection.empty();
+    }
+
+    var _tripleClickTimer = 0;
+    var _mouseDown = false;
+
+    document.onmousedown = function() {
+        _mouseDown = true;
+    };
+
+    document.onmouseup = function() {
+        _mouseDown = false;
+    };
+
+    document.ondblclick = function DoubleClick(evt) {
+        ClearSelection();
+        window.clearTimeout(_tripleClickTimer);
+
+        //handle triple click selecting whole paragraph
+        document.onclick = function() {
+            ClearSelection();
+        };
+
+        _tripleClickTimer = window.setTimeout(RemoveDocumentClick, 1000);
+    };
+
+    function RemoveDocumentClick() {
+        if (!_mouseDown) {
+            document.onclick = null;
+            return true;
+        }
+
+        _tripleClickTimer = window.setTimeout(RemoveDocumentClick, 1000);
+        return false;
+    };
+
+    function ClearSelection() {
+        if (window.getSelection)
+            window.getSelection().removeAllRanges();
+        else if (document.selection)
+            document.selection.empty();
+    };
+
+    permutations = {};
+    _.extend(permutations, Backbone.Events);
+
+    game = new GameView();
+    $('div.game-cont').append(game.$el);
+    game.render();
+
+    config = new ConfigView({
+        el: $('#game-config')
+    });
+
+    BoxList.fetch();
+
 
 });
