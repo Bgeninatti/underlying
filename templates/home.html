@@ -10,15 +10,10 @@
 
 
 {%block contenido %}
-    <div id="game-config" class="col-md-3 rad7">
+    <div id="game-panel" class="col-md-3 rad7">
         <h2> Game Config </h2>
         <form class="form">
-            <div class="form-group">
-                <input class="form-control" id="lvl" type="number" placeholder="Tell me your level...">
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" id="set-lvl">LET'S TRY IT!</button>
-            </div>
+
         </form>
         <div>
             <label for="record">Max lvl reached: </label>
@@ -27,6 +22,15 @@
 
     </div>
     <div class="game-cont rad1">
+        <div id="game-offset" class="rad1">
+            <div id="game-menu">
+                <h1>Welcome underlyier!</h1>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-lg btn-danger" id="start">Start Game!</button>
+                    <button class="btn btn-primary btn-lg btn-danger" id="tutorial">Tutorial</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% end %}
 

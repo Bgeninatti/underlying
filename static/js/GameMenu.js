@@ -10,18 +10,15 @@ define([
         collection: BoxList,
 
         events: {
-            'click button': 'LoadLvl'
+            'click button#start': 'LoadLvl'
         },
 
         LoadLvl: function(e) {
-            e.preventDefault();
-            var lvl = this.$el.find('input').val();
-
-            this.collection.lvl = lvl;
+            this.collection.lvl = 'simple_lvl';
             this.collection.fetch();
+            offset.trigger('started');
         }
 	});
 
 	return ConfigView;
 });
-

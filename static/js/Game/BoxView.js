@@ -13,7 +13,8 @@ define([
         className: 'box',
 
         events: {
-            'click': 'Permutation'
+            'click': 'Permutation',
+            contextmenu: 'Inverse'
         },
 
         initialize: function() {
@@ -26,18 +27,27 @@ define([
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         },
-
         Permutation: function() {
             var val = this.model.get('val');
             if( this.model.get('val') != "U") {
                 this.model.set('val', val+1);
-                var target = BoxList.get(this.model.get('target'));
-                target.set('val', target.get('val')+1);
+                var target = BoxList.get(this.model.get('target')),
+                    target_nval = eval(this.model.get('operation').replace('{target}', target.get('val')));
+                target.set('val', target_nval);
             }
         },
-
         Update: function(val) {
             this.model.set('value', val);
+        },
+        Inverse: function(e) {
+            e.preventDefault();
+            var val = this.model.get('val');
+            if( this.model.get('val') != "U") {
+                this.model.set('val', val-1);
+                var target = BoxList.get(this.model.get('target')),
+                    target_nval = eval(this.model.get('inverse').replace('{target}', target.get('val')));
+                target.set('val', target_nval);
+            }
         }
 	});
 

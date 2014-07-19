@@ -24,9 +24,9 @@ require([
     'underscore',
     'backbone',
     'Game/GameView',
-    'Game/ConfigView',
+    'GameMenu',
     'Collections/BoxCollection'
-], function ($, _, Backbone, GameView, ConfigView, BoxList) {
+], function ($, _, Backbone, GameView, GameMenu, BoxList) {
 
     document.ondblclick = function(evt) {
         if (window.getSelection)
@@ -78,12 +78,23 @@ require([
     permutations = {};
     _.extend(permutations, Backbone.Events);
 
+    offset = {}
+    _.extend(offset, Backbone.Events);
+
     game = new GameView();
     $('div.game-cont').append(game.$el);
     game.render();
 
-    config = new ConfigView({
-        el: $('#game-config')
+    menu = new GameMenu({
+        el: $('#game-menu')
+    });
+
+    offset.on('started', function(){
+        $('#game-offset').fadeOut();
+    });
+
+    offset.on('stoped', function(){
+        $('#game-offset').fadeIn();
     });
 
     BoxList.fetch();
