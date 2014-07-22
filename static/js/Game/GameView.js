@@ -15,8 +15,9 @@ define([
         initialize: function() {
             this.listenTo(this.collection, 'add', this.AddOne, this);
             this.listenTo(this.collection, 'reset', this.render);
-        },
 
+            permutations.on('checkGoal', this.CheckGoal, this);
+        },
         render: function() {
             this.$el.html();
             return this;
@@ -30,6 +31,17 @@ define([
             var box = new Box({model: model});
             this.$el.append(box.$el);
             box.render();
+        },
+        CheckGoal: function() {
+            var ok = 0;
+            this.collection.each(function(box){
+                if (box.get('id') == box.get('val')) {
+                    ok += 1;
+                }
+            });
+            if (ok == 16) {
+                offset.trigger('winer')
+            }
         }
 	});
 

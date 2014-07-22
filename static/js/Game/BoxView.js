@@ -34,6 +34,7 @@ define([
                 var target = BoxList.get(this.model.get('target')),
                     target_nval = eval(this.model.get('operation').replace('{target}', target.get('val')));
                 target.set('val', target_nval);
+                permutations.trigger('checkGoal');
             }
         },
         Update: function(val) {
@@ -47,6 +48,7 @@ define([
                 var target = BoxList.get(this.model.get('target')),
                     target_nval = eval(this.model.get('inverse').replace('{target}', target.get('val')));
                 target.set('val', target_nval);
+                permutations.trigger('checkGoal');
             }
         }
 	});

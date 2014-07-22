@@ -16,13 +16,15 @@ class GameApiHandler(web.RequestHandler):
     def get(self, lvl=None):
         boxes = []
         if lvl == 'simple_lvl':
-            target_fila = randint(1, 4)
-            target_columna = randint(1, 4)
+            target_columna = target_fila = 0
+            while (target_fila == 0) and (target_columna == 0):
+                target_fila = randint(-3, 3)
+                target_columna = randint(-3, 3)
             operation, inverse_operation = self._set_operations()
-            for i in range(1, 17):
+            for i in range(0, 16):
                 box = {
                     'id': i,
-                    'val': i,
+                    'val': i+1,
                     'class': choice(["rad"+str(a) for a in range(1, 10)]),
                     'target': self._set_target(target_fila, target_columna, i),
                     'operation': operation,
@@ -33,7 +35,7 @@ class GameApiHandler(web.RequestHandler):
                 boxes.append(box)
             boxes = self._random_permutations(boxes)
         else:
-            for i in range(1, 17):
+            for i in range(0, 16):
                 box = {
                     'id': i,
                     'val': 'U',
@@ -47,11 +49,14 @@ class GameApiHandler(web.RequestHandler):
         self.write(escape.json_encode(boxes))
         self.set_header("Content-Type", "application/json")
 
-    @staticmethod
-    def _set_target(f, c, id):
-        targ_num = (f * 4) + c + id
-        target = targ_num if targ_num <= 16 else targ_num - 16
-        return target
+    def _set_target(self, f, c, id):
+        a = id + f*4
+        b = (a if a >= 0 else a + 16) if a < 16 else a - 16
+        target = b + c if (b + c)/4 == b/4 else (b + c - 4 if (b + c)/4 > b/4 else b + c + 4)
+        if (target < 16) and (target >= 0):
+            return target
+        else:
+            self.send_error(500)
 
     @staticmethod
     def _set_operations():
@@ -64,7 +69,7 @@ class GameApiHandler(web.RequestHandler):
 
     @staticmethod
     def _random_permutations(boxes):
-        for i in range(1, 21):
+        for i in range(1, 11):
             op_type = choice(["operation", "inverse"])
             box = randint(1, 16) - 1
             target = boxes[box]['target'] - 1
